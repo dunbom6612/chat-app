@@ -6,6 +6,15 @@ body {
   font-size: 62.5%;
 }
 
+:root {
+  --green-color: linear-gradient(-45deg, #5ce27f, #5cabe2);
+  --dark-color: #121212;
+  --grey-color: #b1b1b1;
+  --white-color: #fafafa;
+  --primary-color: var(--green-color);
+  --secondary-color: var(--white-color);
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -15,6 +24,18 @@ code {
   box-sizing: border-box;
 }
 
-body {
+body,
+#root {
   font-size: 1.6rem;
+  height: 100vh;
+}
+
+button,
+input,
+textarea {
+  font-family: 'Poppins', sans-serif;
+}
+
+button {
+  cursor: pointer;
 }
