@@ -19,16 +19,16 @@ function Login(props) {
       } else {
         await loginWithFacebook();
       }
-      history.push('/chat-list');
-    } catch {
-      setError('Failed to login');
+      history.push('/');
+    } catch (Error) {
+      setError(Error.toString());
     }
   };
 
   const { loginWithGoogle, loginWithFacebook } = useAuth();
 
   return (
-    <div class="login">
+    <div className="login">
       <div className="login-buttons">
         <p className="error">{error}</p>
         <button

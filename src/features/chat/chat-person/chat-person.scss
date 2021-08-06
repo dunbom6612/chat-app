@@ -1,0 +1,47 @@
+@import '../../../assets/styles/common-styled.scss';
+
+.person {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+  &-avartar {
+    width: 9rem;
+    height: 9rem;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    display: inline-block;
+    position: relative;
+    &::before {
+      content: '';
+      background-color: #52bd58;
+      position: absolute;
+      bottom: 0.5rem;
+      right: 0.5rem;
+      height: 1.5rem;
+      width: 1.5rem;
+      z-index: 1;
+      border-radius: 50%;
+    }
+  }
+  &-information {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 2.2rem;
+    h4 {
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      font-weight: bold;
+      color: $dark-grey-color;
+    }
+  }
+
+  &-input-container {
+    width: 100%;
+  }
+  &-input {
+    width: 100%;
+  }
+}
