@@ -1,0 +1,21 @@
+@import '../../assets/styles/common-styled.scss';
+
+.chat {
+  font-family: 'Poppins', sans-serif;
+  header {
+    background-color: $grey-color;
+    padding: 2rem;
+    text-align: end;
+  }
+  &-logout {
+    margin: 0;
+  }
+  .ce-settings {
+    font-family: 'Poppins', sans-serif !important;
+    border-left: 0 !important;
+    &::-webkit-scrollbar {
+      width: 0; /* Remove scrollbar space */
+      background: transparent; /* Optional: just make scrollbar invisible */
+    }
+  }
+}

@@ -1,0 +1,29 @@
+@import '../../../../assets/styles/common-styled.scss';
+.bubble {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.2rem;
+  &-avatar {
+    border-radius: 50%;
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    object-position: center;
+  }
+  &-message {
+    padding: 1.5rem 1rem;
+    background-color: $dark-grey-color;
+    width: fit-content;
+    margin-left: 2rem;
+    border-radius: 1rem;
+  }
+  &.mine {
+    justify-content: flex-end;
+    .bubble-avatar {
+      display: none;
+    }
+    .bubble-message {
+      background-color: $purple-color;
+    }
+  }
+}

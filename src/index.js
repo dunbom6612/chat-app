@@ -7,7 +7,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 
-const ChatList = React.lazy(() => import('./features/chat/ChatList'));
+const Chat = React.lazy(() => import('./features/chat/Chat'));
 
 ReactDOM.render(
   <React.StrictMode>
@@ -15,7 +15,7 @@ ReactDOM.render(
       <Suspense fallback={<div>Loading...</div>}>
         <BrowserRouter>
           <Switch>
-            <PrivateRoute path="/" component={ChatList} />
+            <PrivateRoute path="/" exact component={Chat} />
             <Route path="/login" component={Login} />
           </Switch>
         </BrowserRouter>

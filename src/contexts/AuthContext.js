@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { auth, googleProvider, facebookProvider } from '../firebase';
 
 const AuthContext = React.createContext();
@@ -8,10 +9,14 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(localStorage.getItem('user'));
   useEffect(() => {
     const unsubcribe = auth.onAuthStateChanged((user) => {
+      console.log('onAuthStateChanged, user', user);
       setCurrentUser(user);
+      if (user) {
+        localStorage.setItem('user', JSON.stringify(user));
+      }
     });
     return unsubcribe;
   }, []);
