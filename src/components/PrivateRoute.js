@@ -1,16 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useAuth } from '../contexts/AuthContext';
+import { useSelector } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
 
 function PrivateRoute({ component: Component, ...rest }) {
-  const { currentUser } = useAuth();
-  console.log('currentUser at private', currentUser);
+  const currentUser = useSelector((state) => state.user.currentUser);
+  console.log('currentUser', currentUser);
   return (
     <Route
       {...rest}
       render={(props) => {
-        return currentUser ? (
+        return currentUser && currentUser.email ? (
           <Component {...props} />
         ) : (
           <Redirect to="/login" />

@@ -1,18 +1,24 @@
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useContext, useEffect, useState } from 'react';
-import avtfriend from '../../../assets/images/friend-avt.jfif';
-import defaultAvt from '../../../assets/images/default-img.png';
-import './chat-list.scss';
-import ChatPerson from '../ChatFeed/chat-person/ChatPerson';
+import React, { useContext, useState } from 'react';
 import { getOrCreateChat } from 'react-chat-engine';
-import { getElementError } from '@testing-library/react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import defaultAvt from '../../../assets/images/default-img.png';
+import AuthContext from '../../../contexts/AuthContext';
+import ChatPerson from './Me/ChatMe';
+import ChatFriend from './Friend/ChatFriend';
+import { setUser } from '../../../redux/User/user.action';
+import './chat-list.scss';
 
 ChatList.propTypes = {};
 
 function ChatList({ ...props }) {
   const { chats, activeChat, setActiveChat, currentUser, userName, creds } =
     props;
+  const { logout } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const history = useHistory();
   const [searchValue, setSearhValue] = useState('');
   const userAvt = currentUser?.data.avatar ?? defaultAvt;
   console.log(props);
@@ -47,24 +53,32 @@ function ChatList({ ...props }) {
             key={`chat-list-${chat.id}`}
             onClick={() => setActiveChat(chat.id)}
           >
-            <ChatPerson
+            <ChatFriend
               image={friend.person.avatar}
               name={`${friend.person.username}`}
               active={friend.person.is_online}
+              lastMessage={chat.last_message}
             />
-            <div className="chat-friend-time">
-              {new Date(chat.last_message.created).toLocaleString()}
-            </div>
           </li>
         )
       );
     });
   };
 
+  const handleClickLogout = () => {
+    console.log('log out');
+    logout();
+    history.push('/');
+    dispatch(setUser(null));
+  };
+
   return (
     <div className="chat-list">
       <div className="chat-me">
         <ChatPerson image={userAvt} name={userName} />
+        <button className="chat-logout-btn" onClick={handleClickLogout}>
+          Logout
+        </button>
       </div>
       <div className="chat-friend-container">
         <form className="chat-find-container" onSubmit={handleSearchFriend}>
@@ -75,13 +89,7 @@ function ChatList({ ...props }) {
             onSubmit={handleSearchFriend}
             onChange={(e) => setSearhValue(e.target.value)}
           />
-          <button
-            type="submit"
-            className="chat-search-button"
-            onClick={handleSearchFriend}
-          >
-            <FontAwesomeIcon className="chat-search-icon" icon={faPlus} />
-          </button>
+          <FontAwesomeIcon className="chat-search-icon" icon={faSearch} />
         </form>
         <ul className="chat-friend-list">{renderChatList()}</ul>
       </div>

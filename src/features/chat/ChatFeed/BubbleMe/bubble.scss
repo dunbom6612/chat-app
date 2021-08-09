@@ -12,10 +12,14 @@
   }
   &-message {
     padding: 1.5rem 1rem;
-    background-color: $dark-grey-color;
+    background-color: $grey-color;
     width: fit-content;
     margin-left: 2rem;
     border-radius: 1rem;
+    font-size: 1.6rem;
+    a {
+      color: inherit;
+    }
   }
   &.mine {
     justify-content: flex-end;
@@ -23,7 +27,8 @@
       display: none;
     }
     .bubble-message {
-      background-color: $purple-color;
+      background-color: $primary-color;
+      color: $secondary-color;
     }
   }
 }

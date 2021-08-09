@@ -1,20 +1,28 @@
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
-import './chat-feed.scss';
-import ChatPerson from './chat-person/ChatPerson';
-import { sendMessage, isTyping, getMessages } from 'react-chat-engine';
-import BubbleMe from './BubbleMe/BubbleMe';
 import axios from 'axios';
-import AuthContext, { useAuth } from '../../../contexts/AuthContext';
+import React, { useEffect, useRef, useState } from 'react';
+import { IsTyping, sendMessage } from 'react-chat-engine';
+import { useDispatch, useSelector } from 'react-redux';
+import BubbleMe from './BubbleMe/BubbleMe';
+import {
+  setMessages,
+  addMessage
+} from '../../../redux/Messages/messages.action';
+import './chat-feed.scss';
 
 function ChatFeed(props) {
+  const { messages } = props;
   const [text, setText] = useState('');
-  const { userName, chats, creds, activeChat, messages } = props;
-  const { currentUser } = useAuth(AuthContext);
-  const [messageDatas, setMessageDatas] = useState([]);
-
+  const bottomChat = useRef(null);
+  const { userName, chats, creds, activeChat } = props;
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const currentMessages = useSelector(
+    (state) => state.messages.currentMessages
+  );
+  const dispatch = useDispatch();
   useEffect(() => {
+    console.log('call api get message');
     if (!activeChat) return;
     let link = `https://api.chatengine.io/chats/${activeChat}/messages/`;
     axios
@@ -26,38 +34,39 @@ function ChatFeed(props) {
         }
       })
       .then((res) => {
-        setMessageDatas(res.data);
+        dispatch(setMessages(res.data));
+        bottomChat?.current.scrollIntoView();
       });
-  }, [activeChat]);
+  }, [activeChat, currentUser.email, currentUser.uid, dispatch]);
 
-  const renderHeader = chats ? (
-    Object.keys(chats).length > 0 ? (
-      <div className="chat-information-wrapper">
-        {chats[`${activeChat}`]?.people.map((person) => {
-          const info = person.person;
-          if (info.username === userName) return;
-          else
-            return (
-              <ChatPerson
-                image={info.avatar}
-                name={`${info.username}`}
-                active={info.is_online}
-                key={`chat-${info.username}`}
-              />
-            );
-        })}
-      </div>
-    ) : (
-      'LET CHAT RIGHT NOW'
-    )
-  ) : (
-    <div>{'...isLoading'}</div>
-  );
+  useEffect(() => {
+    if (!messages) return;
+    Object.values(messages).forEach((message) => {
+      if (!chats) {
+        return null;
+      }
+      const friend = chats[activeChat].people.find(
+        (person) => person.person.username !== userName
+      );
+      if (
+        currentMessages[currentMessages.length - 1].id ===
+        chats[activeChat].last_message.id
+      )
+        return;
+      if (
+        chats[activeChat].last_message.sender_username ===
+        friend.person.username
+      ) {
+        dispatch(addMessage(chats[activeChat].last_message));
+      }
+    });
+  }, [messages]);
+
   const renderReadMessage = (message, isMine) => {
     if (!chats) return;
     else
       return chats[`${activeChat}`]?.people.map((person) => {
-        if (person.last_read === message.id)
+        if (person.last_read === message.id) {
           return (
             <img
               key={`read-${message.id}-${person.person.username}`}
@@ -66,13 +75,16 @@ function ChatFeed(props) {
               src={person.person.avatar}
             />
           );
+        }
+        return null;
       });
   };
 
-  const renderMessage = () => {
+  const renderOldMessage = () => {
+    console.log('renderMessage', currentMessages);
     const messagesComponent =
-      messageDatas.length > 0
-        ? messageDatas.map((message) => {
+      currentMessages.length > 0
+        ? currentMessages.map((message) => {
             const sender = message.sender;
             const isMine = message.sender_username === userName;
             return (
@@ -84,6 +96,7 @@ function ChatFeed(props) {
                   avatar={sender.avatar}
                   text={message.text}
                   isMine={isMine}
+                  id={message.id}
                 />
 
                 {renderReadMessage(message, isMine)}
@@ -96,7 +109,6 @@ function ChatFeed(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     if (text.length > 0) {
       sendMessage(
         creds,
@@ -106,7 +118,11 @@ function ChatFeed(props) {
           sender_username: userName,
           custom_json: { chat: activeChat }
         },
-        setText('')
+        (response) => {
+          bottomChat?.current.scrollIntoView();
+          setText('');
+          dispatch(addMessage(response));
+        }
       );
     }
   };
@@ -117,24 +133,28 @@ function ChatFeed(props) {
 
   return (
     <div className="chat-feed">
-      {renderHeader}
       <div className="chat-pane">
-        <div className="chat-details">{renderMessage()}</div>
-
+        <div className="chat-details">
+          {activeChat && renderOldMessage()}
+          <IsTyping />
+          <div id="chat-details-bottom" ref={bottomChat}></div>
+        </div>
         {/* floating text input */}
-        <form className="chat-input-container" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Aa"
-            className="chat-input"
-            value={text}
-            onChange={handleChange}
-            onSubmit={handleSubmit}
-          ></input>
-          <button className="chat-send" type="submit" onClick={handleSubmit}>
-            <FontAwesomeIcon icon={faPaperPlane} />
-          </button>
-        </form>
+        {activeChat && (
+          <form className="chat-input-container" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Aa"
+              className="chat-input"
+              value={text}
+              onChange={handleChange}
+              onSubmit={handleSubmit}
+            ></input>
+            <button className="chat-send" type="submit" onClick={handleSubmit}>
+              <FontAwesomeIcon icon={faPaperPlane} />
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );

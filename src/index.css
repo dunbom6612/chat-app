@@ -7,11 +7,11 @@ body {
 }
 
 :root {
-  --green-color: linear-gradient(-45deg, #5ce27f, #5cabe2);
+  --blue-color: #4081ec;
   --dark-color: #121212;
   --grey-color: #b1b1b1;
-  --white-color: #fafafa;
-  --primary-color: var(--green-color);
+  --white-color: #fbfbfb;
+  --primary-color: var(--blue-color);
   --secondary-color: var(--white-color);
 }
 

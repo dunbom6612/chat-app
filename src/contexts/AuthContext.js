@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { auth, googleProvider, facebookProvider } from '../firebase';
+import firebase from 'firebase/app';
+import React, { useContext } from 'react';
+import { auth } from '../firebase';
 
 const AuthContext = React.createContext();
 
@@ -9,30 +9,23 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(localStorage.getItem('user'));
-  useEffect(() => {
-    const unsubcribe = auth.onAuthStateChanged((user) => {
-      console.log('onAuthStateChanged, user', user);
-      setCurrentUser(user);
-      if (user) {
-        localStorage.setItem('user', JSON.stringify(user));
-      }
-    });
-    return unsubcribe;
-  }, []);
-
   const loginWithGoogle = () => {
-    return auth.signInWithPopup(googleProvider);
+    return auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
   };
 
   const loginWithFacebook = () => {
-    return auth.signInWithPopup(facebookProvider);
+    return auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
+  };
+
+  const logout = async () => {
+    await auth.signOut();
+    localStorage.removeItem('currentUser');
   };
 
   const value = {
-    currentUser,
     loginWithGoogle,
-    loginWithFacebook
+    loginWithFacebook,
+    logout
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

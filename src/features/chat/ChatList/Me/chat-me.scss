@@ -1,0 +1,44 @@
+@import '../../../../assets/styles/common-styled.scss';
+
+.me {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+  &-avartar {
+    width: 9rem;
+    height: 9rem;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    img {
+      object-fit: cover;
+      object-position: center;
+    }
+    &::before {
+      content: '';
+      background-color: #52bd58;
+      position: absolute;
+      bottom: 0.5rem;
+      right: 0.5rem;
+      height: 1.5rem;
+      width: 1.5rem;
+      z-index: 1;
+      border-radius: 50%;
+    }
+    &.active::before {
+      background-color: $grey-color;
+    }
+  }
+  &-information {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 2.2rem;
+    h4 {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: $black-color;
+    }
+  }
+}

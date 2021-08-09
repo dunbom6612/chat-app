@@ -4,20 +4,47 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--secondary-color);
+  flex-direction: column;
+  background: var(--primary-color);
   height: 100%;
+  h1 {
+    color: var(--secondary-color);
+    font-size: 5rem;
+    font-weight: 600;
+    margin-bottom: 6rem;
+  }
+  &-buttons {
+    width: 32rem;
+  }
+  &-google {
+    background-color: #c94130;
+    color: var(--secondary-color);
+    text-align: start;
+    margin-bottom: 2rem;
+  }
+  &-facebook {
+    background-color: #334f8d;
+    color: var(--secondary-color);
+    text-align: start;
+  }
+
+  span {
+    margin-left: 2rem;
+  }
+}
+button {
+  border: none;
+  border-radius: 1rem;
 }
 
-.btn {
-  border: none;
-  background: var(--primary-color);
-  color: var(--secondary-color);
+.login .btn {
   padding: 2.5rem;
   font-size: 2rem;
   font-weight: 600;
   border-radius: 1rem;
-  margin: 1rem;
   box-shadow: 0px 1px 4px 0px black;
+  display: block;
+  width: 100%;
 
   &:hover {
     color: var(--primary-color);
@@ -30,4 +57,5 @@
 
 .error {
   color: red;
+  margin-top: 2rem;
 }

@@ -2,14 +2,9 @@
 
 .chat {
   font-family: 'Poppins', sans-serif;
-  header {
-    background-color: $grey-color;
-    padding: 2rem;
-    text-align: end;
-  }
-  &-logout {
-    margin: 0;
-  }
+  padding: 2rem 0 0 0;
+  background-color: $secondary-color;
+
   .ce-settings {
     font-family: 'Poppins', sans-serif !important;
     border-left: 0 !important;

@@ -1,13 +1,18 @@
 @import '../../../../assets/styles/common-styled.scss';
 
-.person {
+.friend {
   display: flex;
-  justify-content: center;
-  align-content: center;
+  justify-content: space-between;
+  align-items: center;
 
-  &-avartar {
-    width: 9rem;
-    height: 9rem;
+  &-detail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &-avatar {
+    width: 6rem;
+    height: 6rem;
     border-radius: 50%;
     display: inline-block;
     position: relative;
@@ -30,16 +35,32 @@
       background-color: $grey-color;
     }
   }
+
+  &-time {
+    color: $dark-grey-color;
+    font-size: 1.2rem;
+  }
+
   &-information {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-left: 2.2rem;
-    h4 {
+    margin-left: 1.2rem;
+    .friend-name {
+      text-overflow: ellipsis;
+      max-width: 30rem;
+      overflow: hidden;
       margin-bottom: 1.5rem;
-      font-size: 2rem;
+      font-size: 1.6rem;
       font-weight: bold;
+      color: $black-color;
+    }
+    .friend-last-message {
       color: $dark-grey-color;
+      font-size: 1.2rem;
+      text-overflow: ellipsis;
+      max-width: 30rem;
+      overflow: hidden;
     }
   }
 }
