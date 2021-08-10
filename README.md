@@ -1,3 +1,24 @@
+# CHAT_APP_HUY
+
+This is basic chat-app using ReactJS Redux and [Chat-engine](https://chatengine.io/) to provide websocket and api. The deployed with firebase.
+The official app is deploy in https://chat-app-760cb.web.app/;
+
+## Functions:
+- Register and login with email in google account and facebook account.
+- Chat realtime. 
+- Auto detect http link and a little emojis.
+
+## Instruction:
+- At the first time login, the system will have to take a bit to automatically register your account with email in Google/Facebook email. 
+- After authenticate, you will navigate into chat screen. There will be blank at first.
+- You will search your friend email (After the account registerd in the system in the first time login ) and enter. The chat feed should be display.
+- Let experience your realtime chat.
+### Tesing purpose: If you want to check the function, you may want to login with 2 accounts by login in 2 different browser.
+
+#CAUTION: 
+- IF YOU ALREADY SIGN IN IN YOUR GOOGLE ACCOUNT, WHICH HAVE THE SAME EMAIL WITH YOUR FACEBOOK ACCOUNT. THE SYSTEM MAY REJECT YOUR ATTEMPT.
+- Facebook login will need a https request so you may not login in localhost.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
