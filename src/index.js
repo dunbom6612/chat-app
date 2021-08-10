@@ -15,7 +15,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <AuthProvider>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className="spinner"></div>}>
           <BrowserRouter>
             <Switch>
               <Route path="/login" component={Login} />

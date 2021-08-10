@@ -15,9 +15,7 @@ ChatList.propTypes = {};
 
 function ChatList({ ...props }) {
   const { chats, activeChat, setActiveChat, avatar, userName, creds } = props;
-  const { logout } = useContext(AuthContext);
-  const dispatch = useDispatch();
-  const history = useHistory();
+
   const [searchValue, setSearhValue] = useState('');
   console.log(props);
 
@@ -63,13 +61,6 @@ function ChatList({ ...props }) {
     });
   };
 
-  const handleClickLogout = () => {
-    console.log('log out');
-    logout();
-    history.push('/');
-    dispatch(setUser(null));
-  };
-
   return (
     <div className="chat-list">
       <div className="chat-me">
@@ -78,7 +69,7 @@ function ChatList({ ...props }) {
       <div className="chat-friend-container">
         <form className="chat-find-container" onSubmit={handleSearchFriend}>
           <input
-            placeholder="Username"
+            placeholder="Search email"
             className="chat-search"
             value={searchValue}
             onSubmit={handleSearchFriend}

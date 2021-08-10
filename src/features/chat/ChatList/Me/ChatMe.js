@@ -11,7 +11,6 @@ function ChatMe({ image, name }) {
   const history = useHistory();
 
   const handleClickLogout = () => {
-    console.log('log out');
     logout();
     history.push('/');
     dispatch(setUser(null));

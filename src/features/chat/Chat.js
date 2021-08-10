@@ -53,7 +53,7 @@ function Chat(props) {
       });
   }, [currentUser]);
 
-  if (!currentUser) return <div className="spiner"></div>;
+  if (!currentUser) return <div className="spinner"></div>;
 
   return (
     <div className="chat">

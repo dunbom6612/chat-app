@@ -7,8 +7,10 @@
 
   &-detail {
     display: flex;
-    justify-content: center;
     align-items: center;
+    overflow: hidden;
+    max-width: 75%;
+    text-overflow: ellipsis;
   }
   &-avatar {
     width: 6rem;
@@ -42,6 +44,8 @@
     color: $dark-grey-color;
     font-size: 1.2rem;
     margin-bottom: 1rem;
+    max-width: 25%;
+    padding-left: 1px;
   }
 
   &-information {
@@ -49,6 +53,7 @@
     flex-direction: column;
     justify-content: center;
     margin-left: 1.2rem;
+    min-width: 60%;
     .friend-name {
       text-overflow: ellipsis;
       max-width: 30rem;
