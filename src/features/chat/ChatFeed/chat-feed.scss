@@ -31,7 +31,7 @@
     overflow-y: auto;
     flex: auto;
     line-height: 1.4;
-    margin-bottom: 1rem;
+    padding-bottom: 1rem;
     padding-right: 1rem;
     &::-webkit-scrollbar {
       width: 10px;
@@ -83,15 +83,15 @@
     width: 100%;
     border-radius: 1rem;
     border: none;
-    padding: 1.5rem 2rem;
-    font-size: 1.6rem;
+    padding: 1rem 2rem;
+    font-size: 1.4rem;
     background-color: $grey-color;
     &::placeholder {
       color: $dark-grey-color;
     }
   }
   &-send {
-    font-size: 3rem;
+    font-size: 2.5rem;
     color: $primary-color;
     border: none;
     margin-left: 1rem;

@@ -1,20 +1,23 @@
 import axios from 'axios';
+import md5 from 'md5';
 import React, { useEffect, useState } from 'react';
 import { ChatEngine } from 'react-chat-engine';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import './chat.scss';
 import ChatFeed from './ChatFeed/ChatFeed';
 import ChatList from './ChatList/ChatList';
 
 function Chat(props) {
   const currentUser = useSelector((state) => state.user.currentUser);
-  const history = useHistory();
   const [userChatEngine, setUserChatEngine] = useState(null);
 
-  const getAvatar = async (url) => {
-    const response = await fetch(url);
+  const getAvatar = async (email) => {
+    const md5Email = md5(email);
+    const response = await fetch(
+      `https://www.gravatar.com/avatar/${md5Email}?d=robohash`
+    );
     const data = await response.blob();
+    console.log('pic', data);
     return new File([data], 'userPhoto.jpg', { type: 'image/jpeg' });
   };
 
@@ -35,7 +38,8 @@ function Chat(props) {
         formData.append('email', currentUser.email);
         formData.append('username', currentUser.email);
         formData.append('secret', currentUser.uid);
-        getAvatar(currentUser.photoURL).then((avatar) => {
+        getAvatar(currentUser.email).then((avatar) => {
+          console.log('avatar', avatar);
           formData.append('avatar', avatar, avatar.name);
           axios
             .post('https://api.chatengine.io/users', formData, {
@@ -47,9 +51,9 @@ function Chat(props) {
             .catch((error) => console.log(error));
         });
       });
-  }, [currentUser, history]);
+  }, [currentUser]);
 
-  if (!userChatEngine || !currentUser) return 'Loading...';
+  if (!currentUser) return <div className="spiner"></div>;
 
   return (
     <div className="chat">
@@ -61,7 +65,7 @@ function Chat(props) {
           className="chat-engine"
           height="calc(100vh - 2rem)"
           renderChatList={(chatAppProps) => (
-            <ChatList {...chatAppProps} currentUser={userChatEngine} />
+            <ChatList {...chatAppProps} avatar={userChatEngine?.data?.avatar} />
           )}
           renderChatSetting={(chatAppProps) => <div {...chatAppProps}></div>}
           renderChatFeed={(chatAppProps) => <ChatFeed {...chatAppProps} />}

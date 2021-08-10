@@ -12,14 +12,16 @@ import {
 import './chat-feed.scss';
 
 function ChatFeed(props) {
-  const { messages } = props;
   const [text, setText] = useState('');
   const bottomChat = useRef(null);
-  const { userName, chats, creds, activeChat } = props;
+  const { userName, chats, creds, activeChat, messages } = props;
   const currentUser = useSelector((state) => state.user.currentUser);
   const currentMessages = useSelector(
     (state) => state.messages.currentMessages
   );
+  const [realtimeMessages, setRealtimeMessages] = useState([]);
+
+  console.log('messages', messages);
   const dispatch = useDispatch();
   useEffect(() => {
     console.log('call api get message');
@@ -40,26 +42,8 @@ function ChatFeed(props) {
   }, [activeChat, currentUser.email, currentUser.uid, dispatch]);
 
   useEffect(() => {
-    if (!messages) return;
-    Object.values(messages).forEach((message) => {
-      if (!chats) {
-        return null;
-      }
-      const friend = chats[activeChat].people.find(
-        (person) => person.person.username !== userName
-      );
-      if (
-        currentMessages[currentMessages.length - 1].id ===
-        chats[activeChat].last_message.id
-      )
-        return;
-      if (
-        chats[activeChat].last_message.sender_username ===
-        friend.person.username
-      ) {
-        dispatch(addMessage(chats[activeChat].last_message));
-      }
-    });
+    setRealtimeMessages(Object.values(messages));
+    bottomChat?.current.scrollIntoView();
   }, [messages]);
 
   const renderReadMessage = (message, isMine) => {
@@ -80,8 +64,35 @@ function ChatFeed(props) {
       });
   };
 
+  const renderRealtimeMessage = () => {
+    console.log('realtimeMessages', realtimeMessages);
+    const messagesComponent =
+      realtimeMessages.length > 0
+        ? realtimeMessages.map((message) => {
+            const sender = message.sender;
+            const isMine = message.sender_username === userName;
+            if (message.custom_json == activeChat) {
+              return (
+                <div
+                  className={`chat-bubble-wrapper ${isMine ? 'mine' : ''}`}
+                  key={`key-${message.id}`}
+                >
+                  <BubbleMe
+                    avatar={sender.avatar}
+                    text={message.text}
+                    isMine={isMine}
+                    id={message.id}
+                  />
+                  {renderReadMessage(message, isMine)}
+                </div>
+              );
+            }
+          })
+        : null;
+    return <>{messagesComponent}</>;
+  };
+
   const renderOldMessage = () => {
-    console.log('renderMessage', currentMessages);
     const messagesComponent =
       currentMessages.length > 0
         ? currentMessages.map((message) => {
@@ -109,6 +120,7 @@ function ChatFeed(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setText('');
     if (text.length > 0) {
       sendMessage(
         creds,
@@ -116,12 +128,10 @@ function ChatFeed(props) {
         {
           text,
           sender_username: userName,
-          custom_json: { chat: activeChat }
+          custom_json: activeChat
         },
         (response) => {
           bottomChat?.current.scrollIntoView();
-          setText('');
-          dispatch(addMessage(response));
         }
       );
     }
@@ -131,12 +141,13 @@ function ChatFeed(props) {
     // isTyping(props, activeChat);
   };
 
+  console.log('renderRealtimeMessage', renderRealtimeMessage());
   return (
     <div className="chat-feed">
       <div className="chat-pane">
         <div className="chat-details">
           {activeChat && renderOldMessage()}
-          <IsTyping />
+          {renderRealtimeMessage()}
           <div id="chat-details-bottom" ref={bottomChat}></div>
         </div>
         {/* floating text input */}

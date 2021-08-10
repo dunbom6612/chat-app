@@ -4,7 +4,6 @@ import { Redirect, Route } from 'react-router-dom';
 
 function PrivateRoute({ component: Component, ...rest }) {
   const currentUser = useSelector((state) => state.user.currentUser);
-  console.log('currentUser', currentUser);
   return (
     <Route
       {...rest}

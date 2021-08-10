@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import defaultAvt from '../../../assets/images/default-img.png';
 import AuthContext from '../../../contexts/AuthContext';
-import ChatPerson from './Me/ChatMe';
+import ChatMe from './Me/ChatMe';
 import ChatFriend from './Friend/ChatFriend';
 import { setUser } from '../../../redux/User/user.action';
 import './chat-list.scss';
@@ -14,13 +14,11 @@ import './chat-list.scss';
 ChatList.propTypes = {};
 
 function ChatList({ ...props }) {
-  const { chats, activeChat, setActiveChat, currentUser, userName, creds } =
-    props;
+  const { chats, activeChat, setActiveChat, avatar, userName, creds } = props;
   const { logout } = useContext(AuthContext);
   const dispatch = useDispatch();
   const history = useHistory();
   const [searchValue, setSearhValue] = useState('');
-  const userAvt = currentUser?.data.avatar ?? defaultAvt;
   console.log(props);
 
   const handleSearchFriend = (event) => {
@@ -56,7 +54,7 @@ function ChatList({ ...props }) {
             <ChatFriend
               image={friend.person.avatar}
               name={`${friend.person.username}`}
-              active={friend.person.is_online}
+              online={friend.person.is_online}
               lastMessage={chat.last_message}
             />
           </li>
@@ -75,10 +73,7 @@ function ChatList({ ...props }) {
   return (
     <div className="chat-list">
       <div className="chat-me">
-        <ChatPerson image={userAvt} name={userName} />
-        <button className="chat-logout-btn" onClick={handleClickLogout}>
-          Logout
-        </button>
+        <ChatMe image={avatar ? avatar : defaultAvt} name={userName} />
       </div>
       <div className="chat-friend-container">
         <form className="chat-find-container" onSubmit={handleSearchFriend}>
