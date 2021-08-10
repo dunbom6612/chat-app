@@ -47,6 +47,7 @@
       font-weight: 600;
       margin-top: 1rem;
       padding: 0rem 0rem 0rem 0rem;
+      transition: all 0.2s linear;
       &:hover {
         color: $black-color;
         text-decoration: underline;

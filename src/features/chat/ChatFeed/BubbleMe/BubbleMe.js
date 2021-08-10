@@ -16,13 +16,18 @@ function BubbleMe(props) {
   };
 
   const convertIcon = (text) => {
-    const regexSmiley = /((?<=\s)(:\))(?=\s))|^((:\))(?=\s))|((?<=\s)(:\)))$/g;
-    const regexSad = /((?<=\s)(:\()(?=\s))|^((:\()(?=\s))|((?<=\s)(:\())$/g;
+    const regexSmiley =
+      /((?<=\s)(:\))(?=\s))|^((:\))(?=\s))|((?<=\s)(:\)))$|^(:\))$/g;
+    const regexSad =
+      /((?<=\s)(:\()(?=\s))|^((:\()(?=\s))|((?<=\s)(:\())$|^(:\()$/g;
     const regexHaHa =
-      /((?<=\s)(:\)\))(?=\s))|^((:\)\))(?=\s))|((?<=\s)(:\)\)))$/g;
-    const regexLaugh = /((?<=\s)(:D)(?=\s))|^((:D)(?=\s))|((?<=\s)(:D))$/g;
-    const regexMlem = /((?<=\s)(:P)(?=\s))|^((:P)(?=\s))|((?<=\s)(:P))$/g;
-    const regexHeart = /((?<=\s)(<3)(?=\s))|^((<3)(?=\s))|((?<=\s)(<3))$/g;
+      /((?<=\s)(:\)\))(?=\s))|^((:\)\))(?=\s))|((?<=\s)(:\)\)))$|^(:\)\))$/g;
+    const regexLaugh =
+      /((?<=\s)(:D)(?=\s))|^((:D)(?=\s))|((?<=\s)(:D))$|^(:D)$/g;
+    const regexMlem =
+      /((?<=\s)(:P)(?=\s))|^((:P)(?=\s))|((?<=\s)(:P))$|^(:P)$/g;
+    const regexHeart =
+      /((?<=\s)(&lt;3)(?=\s))|^((&lt;3)(?=\s))|((?<=\s)(&lt;3))$|^(&lt;3)$/g;
 
     // let text = text.match(/[\w\/\.\:\\]+|\s+|[^\s\w]+/g);
     text = text.replaceAll(regexSmiley, '🙂');

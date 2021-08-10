@@ -18,8 +18,8 @@ ReactDOM.render(
         <Suspense fallback={<div>Loading...</div>}>
           <BrowserRouter>
             <Switch>
-              <PrivateRoute path="/" exact component={Chat} />
               <Route path="/login" component={Login} />
+              <PrivateRoute path="/" exact component={Chat} />
             </Switch>
           </BrowserRouter>
         </Suspense>

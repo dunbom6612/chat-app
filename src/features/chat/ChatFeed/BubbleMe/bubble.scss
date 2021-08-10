@@ -3,6 +3,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 0.2rem;
+  word-break: break-all;
   &-avatar {
     border-radius: 50%;
     width: 5rem;
@@ -11,7 +12,7 @@
     object-position: center;
   }
   &-message {
-    padding: 1.5rem 1rem;
+    padding: 1rem 1rem;
     background-color: $grey-color;
     width: fit-content;
     margin-left: 2rem;

@@ -138,10 +138,8 @@ function ChatFeed(props) {
   };
   const handleChange = (event) => {
     setText(event.target.value);
-    // isTyping(props, activeChat);
   };
 
-  console.log('renderRealtimeMessage', renderRealtimeMessage());
   return (
     <div className="chat-feed">
       <div className="chat-pane">
