@@ -6,6 +6,7 @@ The official app is deploy in https://chat-app-760cb.web.app/.
 ## Functions:
 - Register and login with email in google account and facebook account.
 - Chat realtime. 
+- Auto generate avartar provided by [Gavatar](https://vi.gravatar.com/)
 - Auto detect http link and a little emojis.
 
 ## Instruction:
